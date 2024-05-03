@@ -1,3 +1,4 @@
+
 // **********************************************************************
 // PUCRS/Escola Politecnica
 // COMPUTACAO GRAFICA
@@ -70,6 +71,8 @@ void CriaInstancias();
 // **********************************************************************
 //
 // **********************************************************************
+
+
 void RotacionaAoRedorDeUmPonto(float alfa, Ponto P)
 {
     glTranslatef(P.x, P.y, P.z);
@@ -103,7 +106,7 @@ void init()
 
     CarregaModelos();
     CriaInstancias();
-    float d = 60;
+    float d = 75;
     Min = Ponto(-d,-d);
     Max = Ponto(d,d);
 }
@@ -410,15 +413,35 @@ void AtualizaJogo()
     //  - atualizar áreas de mensagens e de icones
 }
 // **********************************************************************
+// **********************************************************************
+// Esta função deve ser chamada para atualizar as posições dos personagens
+// **********************************************************************
 void AtualizaPersonagens(float tempoDecorrido)
 {
     for(int i=0; i<nInstancias;i++)
     {
         Personagens[i].AtualizaPosicao(tempoDecorrido);
+
+        // Verificar se o objeto ultrapassou os limites
+        if (Personagens[i].Posicao.x > Max.x) {
+            // Reposicionar na extremidade oposta
+            Personagens[i].Posicao.x = Min.x;
+        } else if (Personagens[i].Posicao.x < Min.x) {
+            // Reposicionar na extremidade oposta
+            Personagens[i].Posicao.x = Max.x;
+        }
+
+        if (Personagens[i].Posicao.y > Max.y) {
+            // Reposicionar na extremidade oposta
+            Personagens[i].Posicao.y = Min.y;
+        } else if (Personagens[i].Posicao.y < Min.y) {
+            // Reposicionar na extremidade oposta
+            Personagens[i].Posicao.y = Max.y;
+        }
     }
     AtualizaJogo();
-
 }
+
 // **********************************************************************
 void DesenhaPersonagens()
 {
